@@ -1,0 +1,39 @@
+C51 COMPILER V9.54   MOTOR                                                                 03/10/2025 20:32:52 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE MOTOR
+OBJECT MODULE PLACED IN .\Objects\Motor.obj
+COMPILER INVOKED BY: D:\develop\Keil_v5\C51\BIN\C51.EXE Motor.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\List
+                    -ings\Motor.lst) TABS(2) OBJECT(.\Objects\Motor.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          
+   3          sbit AIN1 = P2^0;
+   4          sbit AIN2 = P2^1;
+   5          sbit BIN1 = P2^2;
+   6          sbit BIN2 = P2^3;
+   7          
+   8          
+   9          void Motor_Foward(void)
+  10          {
+  11   1        AIN1 = 1;
+  12   1        AIN2 = 0;
+  13   1        BIN1 = 1;
+  14   1        BIN2 = 0;
+  15   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =      9    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

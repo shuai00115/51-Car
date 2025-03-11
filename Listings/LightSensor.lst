@@ -1,0 +1,38 @@
+C51 COMPILER V9.54   LIGHTSENSOR                                                           03/11/2025 11:07:50 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE LIGHTSENSOR
+OBJECT MODULE PLACED IN .\Objects\LightSensor.obj
+COMPILER INVOKED BY: D:\develop\Keil_v5\C51\BIN\C51.EXE LightSensor.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(
+                    -.\Listings\LightSensor.lst) TABS(2) OBJECT(.\Objects\LightSensor.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          
+   3          sbit Sensor=P0^0;
+   4          
+   5          /**
+   6            * @brief 读取红外传感器数据
+   7            * @param  无
+   8            * @retval 红外传感器返回数据，范围为0~1，1为遮光，0为有光
+   9            */
+  10          
+  11          char Read_Sensor(void)
+  12          {
+  13   1        return Sensor;
+  14   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =      6    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
