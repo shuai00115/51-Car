@@ -8,4 +8,7 @@ void Timer0_Init(void)		//100微秒@12.000MHz
 	TH0 = 0xFF;		//设置定时初值
 	TF0 = 0;		//清除TF0标志
 	TR0 = 1;		//定时器0开始计时
+	ET1 = 1;
+	EA = 1;
+	PT1 = 0;
 }

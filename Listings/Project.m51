@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.22                                                        03/11/2025  11:08:12  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22                                                        03/15/2025  14:48:03  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
@@ -16,6 +16,7 @@ INPUT MODULES INCLUDED:
   .\Objects\Timer0.obj (TIMER0)
   .\Objects\LightSensor.obj (LIGHTSENSOR)
   D:\DEVELOP\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
+  D:\DEVELOP\KEIL_V5\C51\LIB\C51S.LIB (?C_INIT)
 
 
 LINK MAP OF MODULE:  .\Objects\Project (MAIN)
@@ -26,16 +27,19 @@ LINK MAP OF MODULE:  .\Objects\Project (MAIN)
 
             * * * * * * *   D A T A   M E M O R Y   * * * * * * *
             REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
-            IDATA   0008H     0001H     UNIT         ?STACK
+            DATA    0008H     0002H     UNIT         ?DT?MOTOR
+            IDATA   000AH     0001H     UNIT         ?STACK
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
             CODE    0000H     0003H     ABSOLUTE     
-            CODE    0003H     0010H     UNIT         ?PR?MAIN?MAIN
-            CODE    0013H     000EH     UNIT         ?PR?TIMER1_INIT?TIMER1
-            CODE    0021H     000EH     UNIT         ?PR?TIMER0_INIT?TIMER0
-            CODE    002FH     000CH     UNIT         ?C_C51STARTUP
-            CODE    003BH     0009H     UNIT         ?PR?MOTOR_FOWARD?MOTOR
-            CODE    0044H     0006H     UNIT         ?PR?READ_SENSOR?LIGHTSENSOR
+            CODE    0003H     008CH     UNIT         ?C_C51STARTUP
+            CODE    008FH     0014H     UNIT         ?PR?TIMER0_INIT?TIMER0
+            CODE    00A3H     000EH     UNIT         ?PR?TIMER1_INIT?TIMER1
+            CODE    00B1H     000AH     UNIT         ?PR?MOTOR_INIT?MOTOR
+            CODE    00BBH     0008H     UNIT         ?PR?MAIN?MAIN
+            CODE    00C3H     0007H     UNIT         ?PR?MOTOR_FORWARD?MOTOR
+            CODE    00CAH     0006H     UNIT         ?PR?READ_SENSOR?LIGHTSENSOR
+            CODE    00D0H     0004H     UNIT         ?C_INITSEG
 
 
 
@@ -47,9 +51,17 @@ SEGMENT
 ---------------------
 ?C_C51STARTUP
   +--> ?PR?MAIN?MAIN
+  +--> ?C_INITSEG
 
 ?PR?MAIN?MAIN
-  +--> ?PR?READ_SENSOR?LIGHTSENSOR
+  +--> ?PR?MOTOR_INIT?MOTOR
+  +--> ?PR?MOTOR_FORWARD?MOTOR
+
+?PR?MOTOR_INIT?MOTOR
+  +--> ?PR?TIMER1_INIT?TIMER1
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/15/2025  14:48:03  PAGE 2
+
+
 
 
 
@@ -59,111 +71,119 @@ SYMBOL TABLE OF MODULE:  .\Objects\Project (MAIN)
   ----------------------------------
 
   -------         MODULE        MAIN
-BL51 BANKED LINKER/LOCATER V6.22                                                      03/11/2025  11:08:12  PAGE 2
-
-
   C:0000H         SYMBOL        _ICE_DUMMY_
-  D:00A0H         PUBLIC        P2
-  C:0003H         PUBLIC        main
+  C:00BBH         PUBLIC        main
   -------         PROC          MAIN
-  C:0003H         LINE#         5
-  C:0003H         LINE#         6
-  C:0003H         LINE#         7
-  C:0003H         LINE#         8
-  C:0003H         LINE#         9
-  C:0009H         LINE#         10
-  C:0009H         LINE#         11
-  C:000CH         LINE#         12
-  C:000EH         LINE#         14
-  C:000EH         LINE#         15
-  C:0011H         LINE#         16
-  C:0011H         LINE#         17
+  C:00BBH         LINE#         6
+  C:00BBH         LINE#         7
+  C:00BBH         LINE#         8
+  C:00BEH         LINE#         9
+  C:00BEH         LINE#         10
+  C:00BEH         LINE#         11
+  C:00C1H         LINE#         12
   -------         ENDPROC       MAIN
   -------         ENDMOD        MAIN
 
   -------         MODULE        MOTOR
   C:0000H         SYMBOL        _ICE_DUMMY_
   D:00A0H         PUBLIC        P2
-  B:00A0H.0       PUBLIC        AIN1
-  B:00A0H.2       PUBLIC        BIN1
-  B:00A0H.1       PUBLIC        AIN2
-  B:00A0H.3       PUBLIC        BIN2
-  C:003BH         PUBLIC        Motor_Foward
-  -------         PROC          MOTOR_FOWARD
-  C:003BH         LINE#         9
-  C:003BH         LINE#         10
-  C:003BH         LINE#         11
-  C:003DH         LINE#         12
-  C:003FH         LINE#         13
-  C:0041H         LINE#         14
-  C:0043H         LINE#         15
-  -------         ENDPROC       MOTOR_FOWARD
+  B:00A0H.1       PUBLIC        AIN1
+  C:00B1H         PUBLIC        Motor_Init
+  B:00A0H.2       PUBLIC        AIN2
+  B:00A0H.0       PUBLIC        PWMA
+  B:00A0H.3       PUBLIC        STBY
+  C:00C3H         PUBLIC        Motor_Forward
+  D:0008H         PUBLIC        Counter
+  D:0009H         PUBLIC        Speed
+  -------         PROC          MOTOR_INIT
+  C:00B1H         LINE#         17
+  C:00B1H         LINE#         18
+  C:00B1H         LINE#         19
+  C:00B4H         LINE#         20
+  C:00B6H         LINE#         21
+  C:00B8H         LINE#         22
+  C:00BAH         LINE#         23
+  -------         ENDPROC       MOTOR_INIT
+  -------         PROC          MOTOR_FORWARD
+  C:00C3H         LINE#         36
+  C:00C3H         LINE#         37
+  C:00C3H         LINE#         38
+  C:00C5H         LINE#         39
+  C:00C7H         LINE#         40
+  C:00C9H         LINE#         41
+  -------         ENDPROC       MOTOR_FORWARD
   -------         ENDMOD        MOTOR
 
   -------         MODULE        TIMER1
   C:0000H         SYMBOL        _ICE_DUMMY_
-  C:0013H         PUBLIC        Timer1_Init
+  C:00A3H         PUBLIC        Timer1_Init
   D:0089H         PUBLIC        TMOD
   B:0088H.7       PUBLIC        TF1
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/15/2025  14:48:03  PAGE 3
+
+
   D:008DH         PUBLIC        TH1
   D:008BH         PUBLIC        TL1
   B:0088H.6       PUBLIC        TR1
   -------         PROC          TIMER1_INIT
-  C:0013H         LINE#         4
-  C:0013H         LINE#         5
-  C:0013H         LINE#         6
-  C:0016H         LINE#         7
-  C:0019H         LINE#         8
-  C:001CH         LINE#         9
-  C:001EH         LINE#         10
-  C:0020H         LINE#         11
+  C:00A3H         LINE#         4
+  C:00A3H         LINE#         5
+  C:00A3H         LINE#         6
+  C:00A6H         LINE#         7
+  C:00A9H         LINE#         8
+  C:00ACH         LINE#         9
+  C:00AEH         LINE#         10
+  C:00B0H         LINE#         11
   -------         ENDPROC       TIMER1_INIT
   -------         ENDMOD        TIMER1
-BL51 BANKED LINKER/LOCATER V6.22                                                      03/11/2025  11:08:12  PAGE 3
-
-
 
   -------         MODULE        TIMER0
   C:0000H         SYMBOL        _ICE_DUMMY_
-  C:0021H         PUBLIC        Timer0_Init
+  B:00A8H.7       PUBLIC        EA
+  C:008FH         PUBLIC        Timer0_Init
   D:0089H         PUBLIC        TMOD
+  B:00A8H.3       PUBLIC        ET1
   B:0088H.5       PUBLIC        TF0
   D:008CH         PUBLIC        TH0
   D:008AH         PUBLIC        TL0
+  B:00B8H.3       PUBLIC        PT1
   B:0088H.4       PUBLIC        TR0
   -------         PROC          TIMER0_INIT
-  C:0021H         LINE#         4
-  C:0021H         LINE#         5
-  C:0021H         LINE#         6
-  C:0024H         LINE#         7
-  C:0027H         LINE#         8
-  C:002AH         LINE#         9
-  C:002CH         LINE#         10
-  C:002EH         LINE#         11
+  C:008FH         LINE#         4
+  C:008FH         LINE#         5
+  C:008FH         LINE#         6
+  C:0092H         LINE#         7
+  C:0095H         LINE#         8
+  C:0098H         LINE#         9
+  C:009AH         LINE#         10
+  C:009CH         LINE#         11
+  C:009EH         LINE#         12
+  C:00A0H         LINE#         13
+  C:00A2H         LINE#         14
   -------         ENDPROC       TIMER0_INIT
   -------         ENDMOD        TIMER0
 
   -------         MODULE        LIGHTSENSOR
   C:0000H         SYMBOL        _ICE_DUMMY_
   D:0080H         PUBLIC        P0
-  C:0044H         PUBLIC        Read_Sensor
+  C:00CAH         PUBLIC        Read_Sensor
   B:0080H.0       PUBLIC        Sensor
   -------         PROC          READ_SENSOR
-  C:0044H         LINE#         11
-  C:0044H         LINE#         12
-  C:0044H         LINE#         13
-  C:0049H         LINE#         14
+  C:00CAH         LINE#         11
+  C:00CAH         LINE#         12
+  C:00CAH         LINE#         13
+  C:00CFH         LINE#         14
   -------         ENDPROC       READ_SENSOR
   -------         ENDMOD        LIGHTSENSOR
 
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?MOTOR_FOWARD?MOTOR
-
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?TIMER1_INIT?TIMER1
-
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?TIMER0_INIT?TIMER0
 
-Program Size: data=9.0 xdata=0 code=74
-LINK/LOCATE RUN COMPLETE.  3 WARNING(S),  0 ERROR(S)
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/15/2025  14:48:03  PAGE 4
+
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?READ_SENSOR?LIGHTSENSOR
+
+Program Size: data=11.0 xdata=0 code=212
+LINK/LOCATE RUN COMPLETE.  2 WARNING(S),  0 ERROR(S)

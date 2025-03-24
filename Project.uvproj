@@ -411,16 +411,6 @@
               <FileType>5</FileType>
               <FilePath>.\Timer0.h</FilePath>
             </File>
-            <File>
-              <FileName>LightSensor.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\LightSensor.c</FilePath>
-            </File>
-            <File>
-              <FileName>LightSensor.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\LightSensor.h</FilePath>
-            </File>
           </Files>
         </Group>
       </Groups>

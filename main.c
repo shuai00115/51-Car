@@ -1,18 +1,28 @@
 #include <REGX52.H>
 #include "LightSensor.h"
+#include "Motor.h"
 
+sbit Left=P0^0;
+sbit Middle_Left=P0^1;
+sbit Middle_right=P0^2;
+sbit Right=P0^3; //定义红外传感器引脚
 
 void main()
 {
+	Motor_Init();
 	while (1)
   {
-		if(Read_Sensor() == 1)
+		if(Middle_Left == 1 && Middle_right == 1) //若黑线在正中间
 		{
-			P2=0x01;
+			Motor_Forward();  //直行
 		}
-		else
+		if(Left == 1 && Middle_Left == 1) //若黑线在左边
 		{
-			P2=0x00;
+			Motor_TurnLeft(); //左转
+		}
+		if(Middle_Right == 1 && Right == 1) //若黑线在右边
+		{
+			Motor_TrunRight(); //右转
 		}
   }
 }
