@@ -1,4 +1,4 @@
-C51 COMPILER V9.54   MOTOR                                                                 03/15/2025 14:47:41 PAGE 1   
+C51 COMPILER V9.54   MOTOR                                                                 03/29/2025 16:07:48 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE MOTOR
@@ -11,55 +11,123 @@ line level    source
    1          #include <REGX52.H>
    2          #include "Timer1.h"
    3          
-   4          sbit PWMA = P2^0;
-   5          sbit AIN1 = P2^1;
-   6          sbit AIN2 = P2^2;
-   7          sbit STBY = P2^3;
-   8          
-   9          unsigned char Counter,Speed=60;
-  10          
-  11          /**
-  12            * @brief 马达初始化
-  13            * @param  无
-  14            * @retval 无
-  15            */
+   4          sbit PWMA = P1^0;
+   5          sbit AIN1 = P1^1;
+   6          sbit AIN2 = P1^2; //左轮
+   7          sbit STBY = P1^3;
+   8          sbit PWMB = P1^4;
+   9          sbit BIN1 = P1^5;
+  10          sbit BIN2 = P1^6; //右轮
+  11          //引脚初始化
+  12          
+  13          
+  14          
+  15          unsigned char Counter,Speed_Left,Speed_Right;
   16          
-  17          void Motor_Init(void)
-  18          {
-  19   1        Timer1_Init(); //定时器1初始化
-  20   1        AIN1 = 0; 
-  21   1        AIN2 = 0;
-  22   1        STBY = 1;
-  23   1      }
-  24          
-  25          /*void Timer1_Rountine() interrupt 3
-  26          {
-  27            TL1 = 0xA4;   //设置定时初值
-  28            TH1 = 0xFF;   //设置定时初值
-  29            Counter++;
-  30            if(Counter>=100) Counter=0;
-  31            if(Counter<Speed) PWMA=1;
-  32            else PWMA=0;
-  33          }*/
-  34          
-  35          
-  36          void Motor_Forward(void)
-  37          {
-  38   1        AIN1 = 1;
-  39   1        AIN2 = 0;
-  40   1        PWMA = 1;
-  41   1      }
+  17          /**
+  18            * @brief 马达初始化
+  19            * @param  无
+  20            * @retval 无
+  21            */
+  22          
+  23          void Motor_Init(void)
+  24          {
+  25   1        Timer1_Init(); //定时器1初始化
+  26   1        AIN1 = 0; 
+  27   1        AIN2 = 0;
+  28   1        BIN1 = 0; 
+  29   1        BIN2 = 0;
+  30   1        STBY = 1;
+  31   1      }
+  32          
+  33          /**
+  34            * @brief 小车直行
+  35            * @param  无
+  36            * @retval 无
+  37            */
+  38          
+  39          void Motor_Forward(void) 
+  40          {
+  41   1        AIN1 = 1;
+  42   1        AIN2 = 0;
+  43   1        BIN1 = 1;
+  44   1        BIN2 = 0;
+  45   1        Speed_Left = 60;
+  46   1        Speed_Right = 60;
+  47   1      }
+  48          
+  49          /**
+  50            * @brief 小车右转
+  51            * @param  无
+  52            * @retval 无
+  53            */
+  54          
+C51 COMPILER V9.54   MOTOR                                                                 03/29/2025 16:07:48 PAGE 2   
+
+  55          void Motor_TurnRight(void) 
+  56          {
+  57   1        AIN1 = 0;
+  58   1        AIN2 = 1;
+  59   1        BIN1 = 1;
+  60   1        BIN2 = 0;
+  61   1        Speed_Right = 60;
+  62   1        Speed_Left = 30; //设置车轮差速转动，右快左慢
+  63   1      }
+  64          
+  65          /**
+  66            * @brief 小车左转
+  67            * @param  无
+  68            * @retval 无
+  69            */
+  70          
+  71          void Motor_TurnLeft(void) 
+  72          {
+  73   1        AIN1 = 1;
+  74   1        AIN2 = 0;
+  75   1        BIN1 = 0;
+  76   1        BIN2 = 1;
+  77   1        Speed_Right = 30;
+  78   1        Speed_Left = 60; //设置车轮差速转动，左快右慢
+  79   1      }
+  80          
+  81          void Timer1_Rountine() interrupt 3
+  82          {
+  83   1        TL1 = 0xA4;   //设置定时初值
+  84   1        TH1 = 0xFF;   //设置定时初值
+  85   1        Counter++;
+  86   1        if(Counter>=100) Counter=0;
+  87   1        //设置左轮PWM
+  88   1        if(Counter<Speed_Left)
+  89   1        {
+  90   2          PWMA=1;
+  91   2        }
+  92   1        else
+  93   1        {
+  94   2          PWMA=0;
+  95   2        }
+  96   1        //设置右轮PWM
+  97   1        if(Counter<Speed_Right)
+  98   1        {
+  99   2          PWMB=1;
+ 100   2        }
+ 101   1        else
+ 102   1        {
+ 103   2          PWMB=0;
+ 104   2        }
+ 105   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     17    ----
+   CODE SIZE        =    112    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =      2    ----
+   DATA SIZE        =      3    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
+
+C51 COMPILER V9.54   MOTOR                                                                 03/29/2025 16:07:48 PAGE 3   
 
 
 C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

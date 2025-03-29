@@ -1,13 +1,13 @@
 #include <REGX52.H>
 #include "Timer1.h"
 
-sbit PWMA = P2^0;
-sbit AIN1 = P2^1;
-sbit AIN2 = P2^2; //左轮
-sbit STBY = P2^3;
-sbit PWMB = P1^0;
-sbit BIN1 = P1^1;
-sbit BIN2 = P1^2; //右轮
+sbit PWMA = P1^0;
+sbit AIN1 = P1^1;
+sbit AIN2 = P1^2; //左轮
+sbit STBY = P1^3;
+sbit PWMB = P1^4;
+sbit BIN1 = P1^5;
+sbit BIN2 = P1^6; //右轮
 //引脚初始化
 
 
@@ -42,8 +42,8 @@ void Motor_Forward(void)
 	AIN2 = 0;
 	BIN1 = 1;
 	BIN2 = 0;
-	Speed_Right = 80;
-	Speed_Left = 80;
+	Speed_Left = 60;
+	Speed_Right = 60;
 }
 
 /**
