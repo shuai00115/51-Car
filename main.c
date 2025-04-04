@@ -1,4 +1,5 @@
 #include <REGX52.H>
+#include "TrackLine.h"
 #include "Motor.h"
 
 sbit Left=P0^0;
@@ -11,17 +12,19 @@ void main()
 	Motor_Init();
 	while (1)
   {
-		if(Middle_Left == 1 && Middle_Right == 1) //若黑线在正中间
+		TrackLine();
+		if(Right == 1 && Middle_Left == 1 && Middle_Right == 1 && Left == 0)
 		{
-			Motor_Forward();  //直行
-		}
-		if(Left == 1 && Middle_Left == 1) //若黑线在左边
-		{
-			Motor_TurnLeft(); //左转
-		}
-		if(Middle_Right == 1 && Right == 1) //若黑线在右边
-		{
-			Motor_TurnRight(); //右转
+			if(Right == 1 && Middle_Left == 0 && Middle_Right == 0 && Left == 1)
+			{
+				Motor_TurnSharpLeft();
+				Motor_Forward();
+				TrackLine();
+				if(Right == 1 && Middle_Left == 0 && Middle_Right == 0 && Left == 1)
+				{
+					Motor_TurnSharpRight();
+				}
+			}
 		}
   }
 }

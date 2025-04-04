@@ -2,14 +2,13 @@
 #include "Timer1.h"
 
 sbit PWMA = P1^0;
-sbit AIN1 = P1^1;
-sbit AIN2 = P1^2; //左轮
+sbit AIN1 = P1^2;
+sbit AIN2 = P1^1; //左轮
 sbit STBY = P1^3;
-sbit PWMB = P1^4;
-sbit BIN1 = P1^5;
-sbit BIN2 = P1^6; //右轮
+sbit PWMB = P1^6;
+sbit BIN1 = P1^4;
+sbit BIN2 = P1^5; //右轮
 //引脚初始化
-
 
 
 unsigned char Counter,Speed_Left,Speed_Right;
@@ -38,44 +37,76 @@ void Motor_Init(void)
 
 void Motor_Forward(void) 
 {
-	AIN1 = 1;
-	AIN2 = 0;
-	BIN1 = 1;
-	BIN2 = 0;
-	Speed_Left = 60;
-	Speed_Right = 60;
+	AIN1 = 0;
+	AIN2 = 1;
+	BIN1 = 0;
+	BIN2 = 1;
+	Speed_Left = 55;
+	Speed_Right = 55;
 }
 
 /**
-  * @brief 小车右转
+  * @brief 小车向右微调
   * @param  无
   * @retval 无
   */
 
-void Motor_TurnRight(void) 
+void Motor_TurnRight(void)
+{
+	AIN1 = 0;
+	AIN2 = 1;
+	BIN1 = 0;
+	BIN2 = 1;
+	Speed_Right = 40;
+	Speed_Left = 55;
+}
+
+/**
+  * @brief 小车向左微调
+  * @param  无
+  * @retval 无
+  */
+
+void Motor_TurnLeft(void)
+{
+	AIN1 = 0;
+	AIN2 = 1;
+	BIN1 = 0;
+	BIN2 = 1;
+	Speed_Right = 55;
+	Speed_Left = 40;
+}
+
+/**
+  * @brief 小车急右转
+  * @param  无
+  * @retval 无
+  */
+
+void Motor_TurnSharpRight(void) 
 {
 	AIN1 = 0;
 	AIN2 = 1;
 	BIN1 = 1;
 	BIN2 = 0;
-	Speed_Right = 60;
-	Speed_Left = 30; //设置车轮差速转动，右快左慢
+	Speed_Left = 45;
+	Speed_Right = 18;
 }
 
 /**
-  * @brief 小车左转
+  * @brief 小车急左转
   * @param  无
   * @retval 无
   */
 
-void Motor_TurnLeft(void) 
+void Motor_TurnSharpLeft(void) 
 {
 	AIN1 = 1;
 	AIN2 = 0;
 	BIN1 = 0;
 	BIN2 = 1;
-	Speed_Right = 30;
-	Speed_Left = 60; //设置车轮差速转动，左快右慢
+	Speed_Right = 45; 
+	Speed_Left = 18;
 }
 
 void Timer1_Rountine() interrupt 3

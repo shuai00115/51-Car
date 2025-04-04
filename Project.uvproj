@@ -411,6 +411,26 @@
               <FileType>5</FileType>
               <FilePath>.\Timer0.h</FilePath>
             </File>
+            <File>
+              <FileName>TrackLine.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\TrackLine.c</FilePath>
+            </File>
+            <File>
+              <FileName>TrackLine.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\TrackLine.h</FilePath>
+            </File>
+            <File>
+              <FileName>Delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>Delay.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Delay.h</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

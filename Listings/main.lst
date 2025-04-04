@@ -1,4 +1,4 @@
-C51 COMPILER V9.54   MAIN                                                                  03/29/2025 16:28:27 PAGE 1   
+C51 COMPILER V9.54   MAIN                                                                  04/04/2025 17:51:21 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
@@ -9,36 +9,39 @@ COMPILER INVOKED BY: D:\develop\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED)
 line level    source
 
    1          #include <REGX52.H>
-   2          #include "Motor.h"
-   3          
-   4          sbit Left=P0^0;
-   5          sbit Middle_Left=P0^1;
-   6          sbit Middle_Right=P0^2;
-   7          sbit Right=P0^3; //定义红外传感器引脚
-   8          
-   9          void main()
-  10          {
-  11   1        Motor_Init();
-  12   1        while (1)
-  13   1        {
-  14   2          if(Middle_Left == 1 && Middle_Right == 1) //若黑线在正中间
-  15   2          {
-  16   3            Motor_Forward();  //直行
-  17   3          }
-  18   2          if(Left == 1 && Middle_Left == 1) //若黑线在左边
-  19   2          {
-  20   3            Motor_TurnLeft(); //左转
-  21   3          }
-  22   2          if(Middle_Right == 1 && Right == 1) //若黑线在右边
-  23   2          {
-  24   3            Motor_TurnRight(); //右转
-  25   3          }
-  26   2        }
-  27   1      }
+   2          #include "TrackLine.h"
+   3          #include "Motor.h"
+   4          
+   5          sbit Left=P0^0;
+   6          sbit Middle_Left=P0^1;
+   7          sbit Middle_Right=P0^2;
+   8          sbit Right=P0^3; //定义红外传感器引脚
+   9          
+  10          void main()
+  11          {
+  12   1        Motor_Init();
+  13   1        while (1)
+  14   1        {
+  15   2          TrackLine();
+  16   2          if(Right == 1 && Middle_Left == 1 && Middle_Right == 1 && Left == 0)
+  17   2          {
+  18   3            if(Right == 1 && Middle_Left == 0 && Middle_Right == 0 && Left == 1)
+  19   3            {
+  20   4              Motor_TurnSharpLeft();
+  21   4              Motor_Forward();
+  22   4              TrackLine();
+  23   4              if(Right == 1 && Middle_Left == 0 && Middle_Right == 0 && Left == 1)
+  24   4              {
+  25   5                Motor_TurnSharpRight();
+  26   5              }
+  27   4            }
+  28   3          }
+  29   2        }
+  30   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     32    ----
+   CODE SIZE        =     56    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
